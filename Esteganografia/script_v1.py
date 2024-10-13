@@ -30,9 +30,12 @@ def main():
 
     # SECRET MESSAGE:
     # "Al Fascismo no se le discute, se le destruye." Buenaventura Durruti
+
     # Received by using the following command on the following directory:
     # /usr/share/stegosuite
     # java --add-exports java.base/sun.security.provider=ALL-UNNAMED -jar stegosuite-0.8.0.jar
+
+    # KOMANDO HAU JARRITA DAGO STEGOSUITE PROGRAMAK DEFEKTUZ UBUNTU 22.04-N EZ DUELAKO ZUZENEAN FUNTZIONATZEN!!!
 
 if __name__ == "__main__":
     main()
