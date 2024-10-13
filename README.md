@@ -4,8 +4,13 @@ This repository contains scripts for steganography and cryptography tasks. The p
 
 ## Directory Structure
 
-segu-laboak/ ├── Esteganografia/ │ └── script_v1.py ├── README.md └── Zifraketa/ ├── script_v1.py └── script_v2_ibai.py
-
+segu-laboak/
+├── Esteganografia/
+│   └── script_v1.py
+├── README.md
+└── Zifraketa/
+    ├── script_v1.py
+    └── script_v2_ibai.py
 
 ## Esteganografia
 
