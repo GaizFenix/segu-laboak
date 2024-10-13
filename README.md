@@ -4,6 +4,7 @@ This repository contains scripts for steganography and cryptography tasks. The p
 
 ## Directory Structure
 
+```
 segu-laboak/
 ├── Esteganografia/
 │   └── script_v1.py
@@ -11,6 +12,7 @@ segu-laboak/
 └── Zifraketa/
     ├── script_v1.py
     └── script_v2_ibai.py
+```
 
 ## Esteganografia
 
@@ -50,18 +52,4 @@ This script performs the following tasks:
 
 ### `script_v2_ibai.py`
 
-This script is an updated version of `script_v1.py` with additional features and improvements.
-
-## Usage
-
-To run the scripts, navigate to the respective directories and execute the Python scripts using the following commands:
-
-```sh
-cd Esteganografia
-python [script_v1.py](http://_vscodecontentref_/#%7B%22uri%22%3A%7B%22%24mid%22%3A1%2C%22fsPath%22%3A%22%2Fhome%2Fgaizka%2FDocuments%2Fsegu-laboak%2FEsteganografia%2Fscript_v1.py%22%2C%22external%22%3A%22file%3A%2F%2F%2Fhome%2Fgaizka%2FDocuments%2Fsegu-laboak%2FEsteganografia%2Fscript_v1.py%22%2C%22path%22%3A%22%2Fhome%2Fgaizka%2FDocuments%2Fsegu-laboak%2FEsteganografia%2Fscript_v1.py%22%2C%22scheme%22%3A%22file%22%7D%7D)
-
-cd Zifraketa
-python [script_v1.py](http://_vscodecontentref_/#%7B%22uri%22%3A%7B%22%24mid%22%3A1%2C%22fsPath%22%3A%22%2Fhome%2Fgaizka%2FDocuments%2Fsegu-laboak%2FEsteganografia%2Fscript_v1.py%22%2C%22external%22%3A%22file%3A%2F%2F%2Fhome%2Fgaizka%2FDocuments%2Fsegu-laboak%2FEsteganografia%2Fscript_v1.py%22%2C%22path%22%3A%22%2Fhome%2Fgaizka%2FDocuments%2Fsegu-laboak%2FEsteganografia%2Fscript_v1.py%22%2C%22scheme%22%3A%22file%22%7D%7D)
-
-
-This README provides a clear overview of the project, its directory structure, and the functionality of the scripts within each directory.
+This script is an updated version of `script_v1.py` with additional features and improvements
