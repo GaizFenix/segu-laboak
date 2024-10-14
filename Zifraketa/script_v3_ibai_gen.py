@@ -2,119 +2,92 @@ import re
 from collections import Counter
 import os
 
-# mezua="RIJ AZKKZHC PIKCE XT ACKCUXJHX SZX, E NZ PEJXKE, PXGIK XFDKXNEQE RIPI RIPQEHCK ET OENRCNPI AXNAX ZJ RKCHXKCI AX CJAXDXJAXJRCE AX RTENX, E ACOXKXJRCE AXT RITEQIKERCIJCNPI OKXJHXDIDZTCNHE AX TE ACKXRRCIJ EJEKSZCNHE. AZKKZHC OZX ZJ OERHIK AX DKCPXK IKAXJ XJ XT DEDXT AX TE RTENX IQKXKE XJ REHETZJVE XJ GZTCI AX 1936. DXKI AZKKZHC, RIPI IRZKKX RIJ TEN DXKNIJETCAEAXN XJ TE MCNHIKCE, JI REVI AXT RCXTI. DXKNIJCOCREQE TE HKEACRCIJ KXvITZRCIJEKCE AX TE RTENX IQKXKE. NZ XJIKPX DIDZTEKCAEA XJHKX TE RTENX HKEQEGEAIKE, KXOTXGEAE XJ XT XJHCXKKI PZTHCHZACJEKCI XJ QEKRXTIJE XT 22 AX JIvCXPQKX AX 1936, PZXNHKE XNE CAXJHCOCRERCIJ. NZ PZXKHX OZX NCJ AZAE ZJ UITDX IQGXHCvI ET DKIRXNI KXvITZRCIJEKCI XJ PEKRME. NCJ AZKKZHC SZXAI PEN TCQKX XT REPCJI DEKE SZX XT XNHETCJCNPI, RIJ TE RIPDTCRCAEA AXT UIQCXKJI AXT OKXJHX DIDZTEK V AX TE ACKXRRCIJ EJEKSZCNHE, HXKPCJEKE XJ PEVI AX 1937 TE HEKXE AX TCSZCAEK TE KXvITZRCIJ, AXNPIKETCLEJAI E TE RTENX IQKXKE V OERCTCHEJAI RIJ XTTI XT DINHXKCIK HKCZJOI OKEJSZCNHE"
-j=0
-
 # Get the directory of the current script
 script_dir = os.path.dirname(os.path.abspath(__file__))
 file_path = os.path.join(script_dir, "texto.txt")
 
-
+# Read the input text from the file
 with open(file_path, 'r') as f:
     lines = f.read()
 
-text = re.sub(r'[^a-zA-ZñÑ]', '', lines).lower() # Text to lowercase, excluding non-alphabetic characters
+# Preprocess the text: lowercased and remove non-alphabetic characters (letters only)
+text = re.sub(r'[^a-zA-ZñÑ]', '', lines).lower()
+
+# Count the frequency of each letter
 letter_counts = Counter(text)
 
-# Letren portzentai errealak.
-zerrendaLetra = ['E','A','O','L','S','N','D','R','U','I','T','C','P','M','Y','Q','B','H','G','F','V','J','Ñ','Z','X','K','W']
-zerrendaPortzentaia = [16.78,11.96,8.69,8.67,7.88,7.01,6.87,4.94,4.80,4.15,3.31,2.92,2.776,2.12,1.54,1.53,0.92,0.89,0.73,0.52,0.39,0.30,0.29,0.15,0.06,0.00,0.00]
-zerrendaPortzentaia2 = []
-ekibalentzia = []
+# Define the letter frequencies (percentage) in the language
+zerrendaLetra = ['E', 'A', 'O', 'L', 'S', 'N', 'D', 'R', 'U', 'I', 'T', 'C', 'P', 'M', 'Y', 'Q', 'B', 'H', 'G', 'F', 'V', 'J', 'Ñ', 'Z', 'X', 'K', 'W']
+zerrendaPortzentaia = [16.78, 11.96, 8.69, 8.67, 7.88, 7.01, 6.87, 4.94, 4.80, 4.15, 3.31, 2.92, 2.776, 2.12, 1.54, 1.53, 0.92, 0.89, 0.73, 0.52, 0.39, 0.30, 0.29, 0.15, 0.06, 0.00, 0.00]
 
-# Mezuko letra kopurua zenbatu.
+# Calculate the percentage of each letter in the message
 total_letters = sum(letter_counts.values())
+ekibalentzia = sorted(letter_counts, key=letter_counts.get, reverse=True)
 
-# Mezuko letren portzentaia kalkulatu.
-for letra in zerrendaLetra:
-    letra = letra.lower()  # Ensure the letter is in lowercase to match the text
-    letraKant = letter_counts.get(letra, 0)  # Get the count of the letter from letter_counts, default to 0 if not found
-    zerrendaPortzentaia2.append(letraKant / total_letters * 100)  # Calculate the frequency percentage
-    ekibalentzia.extend(letra)
+# Create a mapping between the most frequent letters in the message and the predefined frequency list
+hiztegi = dict(zip(ekibalentzia, zerrendaLetra[:len(ekibalentzia)]))
 
-# Mezuko portzentaiak ordenatu
-zerrendaKonb = list(zip(ekibalentzia, zerrendaPortzentaia2))
-zerrendaKonb = sorted(zerrendaKonb, key=lambda x: x[1], reverse=True)
-ekibalentzia, zerrendaPortzentaia2 = zip(*zerrendaKonb)
-ekibalentzia = list(ekibalentzia)
-ekibalentzia2 = list(ekibalentzia) # Hasierako egoera gorde, ez da beharrezkoa baina aldaketak ikusteko ondo dago.
-zerrendaPortzentaia2 = list(zerrendaPortzentaia2)
-hiztegi = dict(zip(ekibalentzia, zerrendaLetra))
-mezuItzulia = ''.join(hiztegi.get(char, char) for char in text)
-print(lines)
+# decypher function: translates the original message based on the current letter mapping
+def decypher(lines, hiztegi):
+    """
+    Apply the current letter mapping (hiztegi) to the original text.
+    Non-alphabetic characters remain unchanged.
+    """
+    return ''.join(hiztegi.get(char, char) if char.isalpha() else char for char in lines.lower())
 
-atera, zuzena1, zuzena2 = False, False, False
+# modify_alphabet function: swaps two letters in the current mapping
+def modify_alphabet(hiztegi, char1, char2):
+    """
+    Swap two letters in the current letter mapping (hiztegi).
+    char1 and char2 are the letters to be swapped.
+    """
+    # Reverse the mapping (letter -> frequency letter)
+    inverse_hiztegi = {v: k for k, v in hiztegi.items()}
+    
+    if char1 in inverse_hiztegi and char2 in inverse_hiztegi:
+        # Swap the letters in the dictionary
+        key1, key2 = inverse_hiztegi[char1], inverse_hiztegi[char2]
+        hiztegi[key1], hiztegi[key2] = char2, char1  # Perform the swap in hiztegi
+    
+    return hiztegi
 
-# Decypher
-while not atera:
-    while not zuzena1:
-        char1 = input("Sartu lehenengo letra: ")
-        char1 = char1.lower()
-        if (char1 == "0"):
-            print("Aio, Pelaio!")
-            atera = True
+# Interactive loop to improve the decrypted text through letter swaps
+def interactive_swapping(hiztegi, lines):
+    mezuItzulia = decypher(lines, hiztegi)
+    while True:
+        # Display the current state of the text
+        print("\nCurrent message:\n")
+        print(mezuItzulia)
+        
+        # Get user input for letters to swap
+        char1 = input("\nEnter the first letter to swap (or 0 to exit): ").upper()
+        if char1 == "0":
             break
-        elif (char1 not in ekibalentzia):
-            print("Mesedez, sartu letra egokia.")
-            continue
-        else:
-            zuzena1 = True
-
-    if atera:
-        break
-
-    while not zuzena2:
-        char2 = input("Sartu bigarren letra: ")
-        char2 = char2.lower()
-        if (char2 == "0"):
-            print("Aio, Pelaio!")
-            atera = True
-            break
-        elif (char2 not in ekibalentzia):
-            print("Mesedez, sartu letra egokia.")
-            continue
-        else:
-            zuzena2 = True
+        
+        char2 = input("Enter the second letter to swap: ").upper()
+        
+        # Perform the letter swap
+        hiztegi = modify_alphabet(hiztegi, char1, char2)
+        
+        # Re-decrypt the message using the updated mapping
+        mezuItzulia = decypher(lines, hiztegi)
+        
+        # Provide feedback after the swap
+        print(f"\nSwapped '{char1}' with '{char2}'. Here is the updated text:")
+        print(mezuItzulia)
     
-# Mezua deszifratu.
-# while True:
-#    charAldat = input("\nIdatzi aldatu nahi dituzun bi letrak. Ateratzeko, 'exit'. Egiaztatzeko, 'check': ")
-#    if (charAldat == "exit" or charAldat == "EXIT"):
-#        print("Aio, Pelaio!")
-#        break
-#    elif (charAldat == "check" or charAldat == "CHECK"):
-#        if mezuItzulia == "CON DURRUTI MORIA EL DIRIGENTE QUE, A SU MANERA, MEJOR EXPRESABA COMO COMBATIR AL FASCISMO DESDE UN CRITERIO DE INDEPENDENCIA DE CLASE, A DIFERENCIA DEL COLABORACIONISMO FRENTEPOPULISTA DE LA DIRECCION ANARQUISTA. DURRUTI FUE UN FACTOR DE PRIMER ORDEN EN EL PAPEL DE LA CLASE OBRERA EN CATALUNYA EN JULIO DE 1936. PERO DURRUTI, COMO OCURRE CON LAS PERSONALIDADES EN LA HISTORIA, NO CAYO DEL CIELO. PERSONIFICABA LA TRADICION REvOLUCIONARIA DE LA CLASE OBRERA. SU ENORME POPULARIDAD ENTRE LA CLASE TRABAJADORA, REFLEJADA EN EL ENTIERRO MULTITUDINARIO EN BARCELONA EL 22 DE NOvIEMBRE DE 1936, MUESTRA ESA IDENTIFICACION. SU MUERTE FUE SIN DUDA UN GOLPE OBJETIvO AL PROCESO REvOLUCIONARIO EN MARCHA. SIN DURRUTI QUEDO MAS LIBRE EL CAMINO PARA QUE EL ESTALINISMO, CON LA COMPLICIDAD DEL GOBIERNO DEL FRENTE POPULAR Y DE LA DIRECCION ANARQUISTA, TERMINARA EN MAYO DE 1937 LA TAREA DE LIQUIDAR LA REvOLUCION, DESMORALIZANDO A LA CLASE OBRERA Y FACILITANDO CON ELLO EL POSTERIOR TRIUNFO FRANQUISTA":
-#            print("Apa hi! Mezua deszifratu dek!")
-#            break
-#        else:
-#            print("Keba, motel, hoi ez dek mezua! Jarraitu aldatzen!")
-#            continue
-#    elif len(charAldat) != 2 or charAldat[0] not in ekibalentzia or charAldat[1] not in ekibalentzia:
-#        print("Mesedez, sartu bi letrak larriz eta bata bestearen jarraian, tarterik gabe.")
-#        continue
-    
-    
-    # Letrak aldatu.
-    idx1, idx2 = ekibalentzia.index(char1), ekibalentzia.index(char2)
-    ekibalentzia[idx1], ekibalentzia[idx2] = ekibalentzia[idx2], ekibalentzia[idx1]
-    hiztegi = dict(zip(ekibalentzia, zerrendaLetra))
-    mezuItzulia = mezuItzulia.translate(str.maketrans(char1 + char2, char2 + char1))
-    
-    # Mezua berridatzi eta hiztegia(k) erakutsi.
-    print("Mezu eguneratua:\n", mezuItzulia)
-    print("Hasierako hiztegia:")
-    for x in ekibalentzia2:
-        print(x + " ", end="")
-    print("\nOraingo hiztegia:")
-    for x in ekibalentzia:
-        print(x + " ", end="")
+    return hiztegi, mezuItzulia
 
-    zuzena1, zuzena2 = False
+# Run the interactive swapping function
+hiztegi, final_text = interactive_swapping(hiztegi, lines)
 
-# Mezua gorde.
-with open("../output.txt", "w") as f:
-    f.write(mezuItzulia + "\n\n")
-    for e1, e2 in zip(ekibalentzia2, ekibalentzia):
-        f.write(f"{e1} {e2}\n")
+# Save the translated message and mapping to a file
+output_path = os.path.join(script_dir, "../output.txt")
+with open(output_path, "w") as f:
+    f.write("Final translated message:\n")
+    f.write(final_text + "\n\n")
+    f.write("Letter mappings (original -> swapped):\n")
+    for key, value in hiztegi.items():
+        f.write(f"{key} -> {value}\n")
 
-    # Ari ari ari, Gaizka lehendakari!
+print("\nTranslation saved to 'output.txt'.")
